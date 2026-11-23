@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>My Account — MavonBeauty</title>
+<meta name="description" content="MavonBeauty — manage your profile, delivery address, saved skincare picks, and orders." />
+<meta name="theme-color" content="#E63E67" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23E63E67'/%3E%3Cpath d='M12 18s-5.5-3.4-5.5-7.4A3.4 3.4 0 0 1 12 8.4a3.4 3.4 0 0 1 5.5 2.2c0 4-5.5 7.4-5.5 7.4Z' fill='%23FFF7F8'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blush-bg:#FBF0F2;
+    --cream:#FFFBFA;
+    --rose:#E4879C;
+    --rose-deep:#C24E6B;
+    --rose-hot:#E63E67;
+    --ink:#3A2430;
+    --ink-soft:#7A5A63;
+    --line:#EED6DC;
+    --gold-pink:#F3D9DE;
+    --green:#2E9E5B;
+    --red:#E14545;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%;}
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:64px;
+    overflow-x:hidden;
+    max-width:100%;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
+
+  /* ===== Top bar ===== */
+  .topbar{background:var(--ink);color:#F6DCE2;font-size:11.5px;letter-spacing:.02em;}
+  .topbar .wrap{display:flex;justify-content:center;align-items:center;height:32px;text-align:center;}
+  .topbar .promo{color:#fff;font-weight:600;}
+
+  /* ===== Header ===== */
+  header.main{background:var(--blush-bg);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;}
+  nav.wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:10px;}
+  .logo{font-size:19px;font-weight:600;letter-spacing:.01em;cursor:pointer;white-space:nowrap;}
+  .logo span{color:var(--rose-hot);}
+  .navlinks{display:none;gap:28px;font-size:14px;font-weight:600;color:var(--ink-soft);}
+  .navlinks a.active{color:var(--rose-hot);}
+  .navicons{display:flex;gap:14px;align-items:center;}
+  .icon-btn{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;}
+  .icon-btn svg{width:20px;height:20px;stroke:var(--ink);}
+  .icon-btn.active svg{stroke:var(--rose-hot);}
+  .badge{
+    position:absolute;top:-2px;right:-2px;background:var(--rose-hot);color:#fff;
+    font-size:10px;font-weight:800;width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ===== Bottom mobile nav ===== */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;background:var(--cream);
+    border-top:1px solid var(--line);display:flex;z-index:50;
+    box-shadow:0 -6px 16px -8px rgba(196,78,107,.2);
+  }
+  .bottom-nav a{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:8px 0 6px;background:none;border:none;color:var(--ink-soft);font-size:10.5px;font-weight:700;
+  }
+  .bottom-nav a svg{width:20px;height:20px;stroke:var(--ink-soft);}
+  .bottom-nav a.active{color:var(--rose-hot);}
+  .bottom-nav a.active svg{stroke:var(--rose-hot);}
+  .bottom-nav .nav-badge{position:relative;}
+  .bottom-nav .nav-badge .badge{top:-3px;right:8px;}
+
+  /* ===== Mobile hamburger menu ===== */
+  .hamburger-btn{display:flex;}
+  #mobile-menu-overlay{position:fixed;inset:0;background:rgba(58,36,48,.4);z-index:110;display:none;}
+  #mobile-menu-overlay.show{display:block;}
+  #mobile-menu-panel{
+    position:fixed;top:0;left:0;right:0;background:var(--cream);z-index:120;
+    padding:18px 20px 10px;box-shadow:0 12px 24px -10px rgba(58,36,48,.3);
+    transform:translateY(-100%);transition:transform .22s ease;
+    display:flex;flex-direction:column;
+  }
+  #mobile-menu-panel.open{transform:translateY(0);}
+  .mmenu-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .mmenu-head .logo{font-size:17px;}
+  .search-close{background:none;border:none;font-size:22px;color:var(--ink);cursor:pointer;padding:4px 8px;}
+  .mmenu-links a{
+    display:block;padding:14px 2px;font-weight:700;font-size:15px;color:var(--ink);
+    border-bottom:1px solid var(--line);cursor:pointer;
+  }
+  .mmenu-links a:last-child{border-bottom:none;}
+  .mmenu-links a.active{color:var(--rose-hot);}
+
+  @media(min-width:760px){
+    body{padding-bottom:0;}
+    .bottom-nav{display:none;}
+    .navlinks{display:flex;}
+    .hamburger-btn{display:none;}
+    #mobile-menu-panel{display:none;}
+  }
+
+  /* ===== Toast ===== */
+  #toast-wrap{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:200;width:calc(100% - 32px);max-width:400px;}
+  .toast{
+    padding:13px 16px;border-radius:10px;color:#fff;font-weight:700;font-size:13.5px;
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
+    box-shadow:0 10px 24px -8px rgba(0,0,0,.25);animation:slidein .25s ease;
+  }
+  .toast.ok{background:var(--green);}
+  .toast.err{background:var(--red);}
+  @keyframes slidein{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ===== Breadcrumb & Sections ===== */
+  .section{padding:24px 0 48px;}
+  .breadcrumb{display:flex;gap:6px;font-size:11.5px;color:var(--ink-soft);padding:14px 0;flex-wrap:wrap;}
+  .breadcrumb a{color:var(--ink-soft);font-weight:600;}
+  .breadcrumb span.current{color:var(--rose-hot);font-weight:700;}
+  .eyebrow{color:var(--rose-hot);font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;}
+  .pd-title{font-size:24px;margin-bottom:8px;}
+
+  /* ===== Forms & Buttons (matching mavonbeauty-mvp.html) ===== */
+  .form-field{margin-bottom:16px;}
+  .form-field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .form-field input,.form-field textarea,.form-field select{
+    width:100%;border:1.5px solid var(--line);background:var(--blush-bg);border-radius:10px;
+    padding:12px 14px;font-size:13.5px;font-family:inherit;color:var(--ink);
+  }
+  .form-field input:focus,.form-field textarea:focus,.form-field select:focus{outline:none;border-color:var(--rose-hot);}
+  .form-row-2{display:grid;grid-template-columns:1fr;gap:0;}
+  @media(min-width:760px){.form-row-2{grid-template-columns:1fr 1fr;gap:14px;}}
+
+  .btn-primary{
+    display:inline-block;background:var(--rose-hot);color:#fff;font-weight:700;
+    padding:13px 26px;border-radius:40px;font-size:13.5px;border:none;cursor:pointer;
+    box-shadow:0 12px 20px -8px rgba(230,62,103,.45);
+  }
+  .btn-cart{
+    width:100%;background:var(--ink);color:#fff;font-weight:700;padding:15px;border-radius:40px;
+    font-size:14px;border:none;cursor:pointer;margin:8px 0 0;
+  }
+  .btn-secondary{
+    background:none;color:var(--ink);font-weight:700;padding:10px 18px;border-radius:40px;
+    font-size:12.5px;border:1.5px solid var(--line);cursor:pointer;
+  }
+  .view-all{
+    border:1.5px solid var(--rose-hot);color:var(--rose-hot);font-weight:700;
+    padding:8px 16px;border-radius:40px;font-size:12px;white-space:nowrap;background:none;cursor:pointer;
+  }
+
+  /* ===== Auth Gate ===== */
+  .auth-tabs{display:flex;background:var(--blush-bg);border-radius:40px;padding:4px;margin-bottom:22px;border:1px solid var(--line);}
+  .auth-tabs button{flex:1;border:none;background:none;padding:10px;border-radius:36px;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer;}
+  .auth-tabs button.active{background:var(--rose-hot);color:#fff;}
+  .demo-note{background:#FDF3D6;border:1px solid #EBD48C;color:#7A5A16;font-size:12px;border-radius:10px;padding:10px 14px;margin-bottom:18px;line-height:1.6;}
+
+  /* ===== Unlocked Account View ===== */
+  .acc-banner{
+    background:var(--blush-bg);border:1px solid var(--line);border-radius:18px;
+    padding:20px;margin-bottom:22px;display:flex;justify-content:space-between;
+    align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .acc-user{display:flex;align-items:center;gap:14px;}
+  .acc-avatar{
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(150deg,var(--rose),var(--rose-deep));
+    color:#fff;font-family:'Fraunces',serif;font-size:21px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+  .stat-card{background:var(--blush-bg);border:1px solid var(--line);border-radius:14px;padding:15px;}
+  .stat-card .num{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--ink);}
+  .stat-card .lbl{font-size:10.5px;color:var(--ink-soft);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-top:4px;}
+
+  .acc-tabs{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;}
+  .acc-tabs button{
+    white-space:nowrap;border:1.5px solid var(--line);background:var(--cream);color:var(--ink-soft);
+    font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:30px;cursor:pointer;
+  }
+  .acc-tabs button.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .acc-card{background:var(--blush-bg);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;}
+  .acc-card h3{font-size:17px;margin-bottom:14px;}
+  .order-item{
+    background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;
+  }
+  .order-item:last-child{margin-bottom:0;}
+  .admin-pill{font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;}
+  .admin-pill.ok{background:#E1F5E9;color:var(--green);}
+  .admin-pill.low{background:#FDF3D6;color:#7A5A16;}
+
+  .saved-row{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px;
+  }
+  .saved-row:last-child{margin-bottom:0;}
+
+  /* ===== Footer (matching mavonbeauty-mvp.html) ===== */
+  footer{background:var(--ink);color:#EFD3DA;}
+  .foot-top{padding:36px 12px 20px 12px;display:grid;grid-template-columns:1fr;gap:24px;}
+  .foot-top h5{color:#fff;font-size:13.5px;margin-bottom:12px;font-weight:700;}
+  .foot-top p{font-size:12.5px;line-height:1.7;color:#C79AA5;}
+  .foot-top li{font-size:12.5px;margin-bottom:9px;color:#D9AFB9;}
+  .foot-brand{font-family:'Fraunces',serif;font-size:44px;font-weight:600;text-align:center;padding:16px 0 20px;}
+  .foot-brand span{color:#5C424A;}
+  .foot-bottom{border-top:1px solid #4A3540;padding:16px 20px;display:flex;flex-direction:column;gap:6px;font-size:11px;color:#B98A96;text-align:center;}
+  @media(min-width:760px){
+    .foot-top{grid-template-columns:1.4fr 1fr 1fr 1fr;}
+    .foot-bottom{flex-direction:row;justify-content:space-between;text-align:left;}
+  }
+
+  /* ===== WhatsApp FAB ===== */
+  .wa-fab{
+    position:fixed;right:16px;bottom:80px;z-index:60;background:#25D366;color:#fff;
+    width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 20px -6px rgba(37,211,102,.6);border:none;cursor:pointer;
+  }
+  .wa-fab svg{width:26px;height:26px;fill:#fff;}
+  @media(min-width:760px){.wa-fab{bottom:24px;}}
+</style>
+</head>
+<body>
+
+<div id="toast-wrap"></div>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="promo">Save 15% on orders over ₦50,000 · Use code PINK15 at checkout</div>
+  </div>
+</div>
+
+<header class="main">
+  <nav class="wrap">
+    <a class="logo" href="mavonbeauty-mvp.html">Mavon<span>Beauty</span></a>
+    <div class="navlinks">
+      <a href="mavonbeauty-mvp.html">Home</a>
+      <a href="mavonbeauty-mvp.html#/shop">Shop</a>
+      <a href="mavonbeauty-mvp.html#/about">About us</a>
+      <a href="mavonbeauty-mvp.html#/contact">Contact us</a>
+    </div>
+    <div class="navicons">
+      <button class="icon-btn hamburger-btn" aria-label="Open menu" onclick="openMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a class="icon-btn active" aria-label="My account" href="account.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </a>
+      <a class="icon-btn" aria-label="View store cart" href="mavonbeauty-mvp.html#/shop">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 2h12l1 5H5l1-5Z"/><path d="M5 7h14l-1.2 13H6.2L5 7Z"/></svg>
+        <span class="badge" id="cart-badge-top" style="display:none;">0</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<div id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+<nav id="mobile-menu-panel" aria-label="Mobile navigation">
+  <div class="mmenu-head">
+    <div class="logo">Mavon<span>Beauty</span></div>
+    <button class="search-close" aria-label="Close menu" onclick="closeMobileMenu()">&times;</button>
+  </div>
+  <div class="mmenu-links">
+    <a href="mavonbeauty-mvp.html">Home</a>
+    <a href="mavonbeauty-mvp.html#/shop">Shop</a>
+    <a href="mavonbeauty-mvp.html#/about">About us</a>
+    <a href="mavonbeauty-mvp.html#/contact">Contact us</a>
+    <a href="account.html" class="active">My Account</a>
+  </div>
+</nav>
+
+<main id="app"></main>
+
+<a class="wa-fab" aria-label="Chat with us on WhatsApp" href="https://wa.me/2348012345678?text=Hi%20MavonBeauty!%20I'd%20like%20help%20with%20my%20account%20or%20order." target="_blank" rel="noopener">
+  <svg viewBox="0 0 32 32"><path d="M16.02 3C9.4 3 4 8.38 4 15c0 2.27.63 4.4 1.72 6.22L4 29l7.98-1.66A11.9 11.9 0 0 0 16.02 27C22.65 27 28 21.62 28 15S22.65 3 16.02 3Zm6.9 16.98c-.29.82-1.45 1.5-2.37 1.7-.63.13-1.45.24-4.22-.9-3.54-1.47-5.82-5.06-6-5.3-.18-.24-1.43-1.9-1.43-3.63s.9-2.57 1.22-2.92c.29-.32.63-.4.84-.4.21 0 .42 0 .6.01.2.01.46-.08.72.55.29.7.98 2.41 1.06 2.58.08.18.14.38.03.61-.12.24-.18.38-.35.58-.18.2-.37.45-.53.6-.18.18-.36.37-.16.72.21.35.92 1.52 1.98 2.46 1.36 1.21 2.5 1.59 2.86 1.76.35.18.56.15.77-.09.21-.24.88-1.03 1.12-1.38.24-.35.47-.29.79-.18.32.12 2.03.96 2.38 1.14.35.18.58.26.66.4.09.15.09.85-.2 1.67Z" /></svg>
+</a>
+
+<nav class="bottom-nav">
+  <a href="mavonbeauty-mvp.html"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+  <a href="mavonbeauty-mvp.html#/shop"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="4" y="7" width="16" height="14" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>Shop</a>
+  <a class="nav-badge" href="mavonbeauty-mvp.html#/checkout"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 2h12l1 5H5l1-5Z"/><path d="M5 7h14l-1.2 13H6.2L5 7Z"/></svg>Cart<span class="badge" id="cart-badge-bottom" style="display:none;">0</span></a>
+  <a href="account.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Account</a>
+</nav>
+
+<footer>
+  <div class="wrap foot-top">
+    <div>
+      <h5>Our Mission</h5>
+      <p>A radical new beauty brand focused on love for the self and the planet. Our team of health, beauty and skincare experts set out together to challenge the beauty industry.</p>
+    </div>
+    <div><h5>Quick Links</h5><ul>
+      <li><a href="mavonbeauty-mvp.html#/shop">Shop All</a></li>
+      <li><a href="mavonbeauty-mvp.html#/delivery">Delivery &amp; Shipping</a></li>
+      <li><a href="mavonbeauty-mvp.html#/returns">Returns &amp; Refunds</a></li>
+      <li><a href="https://wa.me/2348012345678" target="_blank" rel="noopener">Chat on WhatsApp</a></li>
+    </ul></div>
+    <div><h5>Company</h5><ul>
+      <li><a href="mavonbeauty-mvp.html">Home</a></li>
+      <li><a href="mavonbeauty-mvp.html#/about">About us</a></li>
+      <li><a href="mavonbeauty-mvp.html#/contact">Contact us</a></li>
+      <li><a href="account.html">My Account</a></li>
+    </ul></div>
+    <div><h5>Legal &amp; Payment</h5><ul>
+      <li><a href="mavonbeauty-mvp.html#/privacy">Privacy Policy</a></li>
+      <li><a href="mavonbeauty-mvp.html#/terms">Terms of Service</a></li>
+      <li>Bank Transfer · Pay on Delivery</li>
+      <li style="font-size:11px;color:#B98A96;">NAFDAC Reg. No. A7-1234</li>
+    </ul></div>
+  </div>
+  <div class="foot-brand">Mavon<span>Beauty</span></div>
+  <div class="foot-bottom">
+    <div>© <span id="yr"></span> MavonBeauty. All rights reserved.</div>
+    <div>Follow Us · <a href="https://instagram.com/mavonbeauty" target="_blank" rel="noopener">Instagram</a> · <a href="https://x.com/mavonbeauty" target="_blank" rel="noopener">X</a> · <a href="https://facebook.com/mavonbeauty" target="_blank" rel="noopener">Facebook</a></div>
+  </div>
+</footer>
+
+<script>
+const ACCOUNT_KEY = 'mavonbeauty_account_v1';
+const CART_KEY = 'mavonbeauty_cart_v1';
+const ORDERS_KEY = 'mavonbeauty_orders_v1';
+
+const defaultAccount = {
+  unlocked: false,
+  authTab: 'login',
+  activeTab: 'orders',
+  profile: {
+    name: '',
+    email: '',
+    phone: '0803 412 9980',
+    state: 'Lagos',
+    address: '14 Admiralty Way, Lekki Phase 1, Lagos',
+    skinGoal: 'Barrier repair & gentle hydration'
+  },
+  sampleOrders: [
+    {
+      ref: 'MB-849201',
+      date: '14 Nov 2026',
+      status: 'Delivered',
+      transit: false,
+      total: 43500,
+      summary: 'Rosewater Gentle Cleanser × 1, Blush Petal Toner × 1',
+      items: [{ id: 1, qty: 1 }, { id: 2, qty: 1 }]
+    },
+    {
+      ref: 'MB-902114',
+      date: '21 Nov 2026',
+      status: 'In Transit',
+      transit: true,
+      total: 30500,
+      summary: 'Dewy Glow Serum × 1',
+      items: [{ id: 3, qty: 1 }]
+    }
+  ],
+  saved: [
+    { id: 4, name: 'Silk Bloom Lotion', price: 17500 },
+    { id: 6, name: 'Velvet Whipped Balm', price: 12500 },
+    { id: 8, name: 'Night Bloom Oil', price: 24000 }
+  ]
+};
+
+function readJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
+function writeJSON(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (_) {}
+}
+
+let acc = { ...structuredClone(defaultAccount), ...readJSON(ACCOUNT_KEY, {}) };
+function saveAcc() { writeJSON(ACCOUNT_KEY, acc); }
+
+function money(n) { return '₦' + Math.round(n).toLocaleString('en-NG'); }
+
+function toast(msg, type = 'ok') {
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = '<span>' + msg + '</span><span style="cursor:pointer;" onclick="this.parentElement.remove()">&times;</span>';
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+function syncCartBadges() {
+  const cart = readJSON(CART_KEY, {});
+  const count = Object.values(cart).reduce((a, b) => a + Number(b || 0), 0);
+  ['cart-badge-top', 'cart-badge-bottom'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = count > 0 ? 'flex' : 'none';
+    el.textContent = count;
+  });
+}
+
+function addItemsToCart(items) {
+  const cart = readJSON(CART_KEY, {});
+  items.forEach(it => {
+    cart[it.id] = (cart[it.id] || 0) + (it.qty || 1);
+  });
+  writeJSON(CART_KEY, cart);
+  syncCartBadges();
+}
+
+function openMobileMenu() {
+  document.getElementById('mobile-menu-overlay').classList.add('show');
+  document.getElementById('mobile-menu-panel').classList.add('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu-overlay').classList.remove('show');
+  document.getElementById('mobile-menu-panel').classList.remove('open');
+}
+
+function setAuthTab(tab) {
+  acc.authTab = tab;
+  saveAcc();
+  render();
+}
+
+function unlockAccount(e) {
+  e.preventDefault();
+  const isSignup = acc.authTab === 'signup';
+  const emailVal = (document.getElementById('auth-email')?.value || '').trim();
+  const passVal = (document.getElementById('auth-pass')?.value || '').trim();
+  const nameVal = (document.getElementById('auth-name')?.value || '').trim();
+
+  if (isSignup && !nameVal) {
+    toast('Please enter your name to unlock', 'err');
+    return;
+  }
+  if (!emailVal || !passVal) {
+    toast('Please enter an email and password to unlock', 'err');
+    return;
+  }
+
+  const derivedName = nameVal || acc.profile.name || emailVal.split('@')[0].replace(/[._-]+/g, ' ').replace(/\w/g, c => c.toUpperCase());
+  acc.profile.name = derivedName;
+  acc.profile.email = emailVal;
+  acc.unlocked = true;
+  saveAcc();
+  toast('Account unlocked! Welcome, ' + derivedName, 'ok');
+  render();
+}
+
+function lockAccount() {
+  acc.unlocked = false;
+  saveAcc();
+  toast('Signed out of account preview', 'ok');
+  render();
+}
+
+function setDashTab(tab) {
+  acc.activeTab = tab;
+  saveAcc();
+  render();
+}
+
+function saveProfileDetails(e) {
+  e.preventDefault();
+  acc.profile.name = document.getElementById('p-name').value.trim() || acc.profile.name;
+  acc.profile.phone = document.getElementById('p-phone').value.trim() || acc.profile.phone;
+  acc.profile.email = document.getElementById('p-email').value.trim() || acc.profile.email;
+  acc.profile.state = document.getElementById('p-state').value;
+  acc.profile.address = document.getElementById('p-address').value.trim();
+  acc.profile.skinGoal = document.getElementById('p-goal').value.trim();
+  saveAcc();
+  toast('Saved! Checkout on the store will auto-fill these details.', 'ok');
+  render();
+}
+
+function addSavedToStoreCart(id, name) {
+  addItemsToCart([{ id, qty: 1 }]);
+  toast(name + ' added to cart!', 'ok');
+}
+
+function removeSavedItem(id) {
+  acc.saved = acc.saved.filter(x => x.id !== id);
+  saveAcc();
+  toast('Removed from saved items', 'ok');
+  render();
+}
+
+function reorderOrder(items, ref) {
+  addItemsToCart(items);
+  toast('Items from ' + ref + ' added to cart!', 'ok');
+}
+
+function getOrdersList() {
+  const storeOrders = readJSON(ORDERS_KEY, []).map(o => ({
+    ref: o.ref,
+    date: new Date(o.placedAt).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' }),
+    status: 'Order Placed',
+    transit: true,
+    total: o.total,
+    summary: o.items.map(i => i.name + ' × ' + i.qty).join(', '),
+    items: o.items.map(i => ({ id: i.id, qty: i.qty }))
+  }));
+  return [...storeOrders, ...acc.sampleOrders];
+}
+
+function renderLockedGate() {
+  const isLogin = acc.authTab === 'login';
+  return `
+  <section class="section" style="padding-top:8px;">
+    <div class="wrap" style="max-width:420px;">
+      <div class="breadcrumb"><a href="mavonbeauty-mvp.html">Home</a> &gt; <span class="current">Account</span></div>
+      <h1 class="pd-title" style="margin-bottom:14px;">My Account</h1>
+      <div class="demo-note">Preview mode — enter any email and password below to unlock and explore the customer account dashboard.</div>
+      <div class="auth-tabs">
+        <button type="button" class="${isLogin ? 'active' : ''}" onclick="setAuthTab('login')">Log in</button>
+        <button type="button" class="${!isLogin ? 'active' : ''}" onclick="setAuthTab('signup')">Sign up</button>
+      </div>
+      <form onsubmit="unlockAccount(event)">
+        ${!isLogin ? `
+          <div class="form-field">
+            <label>Full name</label>
+            <input type="text" id="auth-name" placeholder="e.g. Adaeze Okafor" value="${acc.profile.name}">
+          </div>
+        ` : ''}
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" id="auth-email" placeholder="you@email.com" value="${acc.profile.email}">
+        </div>
+        <div class="form-field">
+          <label>Password</label>
+          <input type="password" id="auth-pass" placeholder="••••••••">
+        </div>
+        <button class="btn-cart" type="submit">${isLogin ? 'Log in' : 'Create account'}</button>
+      </form>
+    </div>
+  </section>`;
+}
+
+function renderUnlockedDashboard() {
+  const p = acc.profile;
+  const initials = (p.name || 'MB').split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase();
+  const orders = getOrdersList();
+
+  let panelHTML = '';
+  if (acc.activeTab === 'orders') {
+    panelHTML = `
+      <div class="acc-card">
+        <h3>Order History</h3>
+        ${orders.map(o => `
+          <div class="order-item">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+              <strong style="font-size:13.5px;">${o.ref}</strong>
+              <span class="admin-pill ${o.transit ? 'low' : 'ok'}">${o.status}</span>
+            </div>
+            <div style="font-size:12px;color:var(--ink-soft);margin-bottom:10px;">${o.date} · ${o.summary}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="font-weight:800;color:var(--rose-hot);font-size:14px;">${money(o.total)}</span>
+              <button type="button" class="view-all" onclick='reorderOrder(${JSON.stringify(o.items)}, "${o.ref}")'>Add Items to Cart</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  } else if (acc.activeTab === 'saved') {
+    panelHTML = `
+      <div class="acc-card">
+        <h3>Saved Skincare Picks</h3>
+        ${acc.saved.length ? acc.saved.map(item => `
+          <div class="saved-row">
+            <div>
+              <div style="font-weight:700;font-size:13.5px;">${item.name}</div>
+              <div style="color:var(--rose-hot);font-weight:800;font-size:13px;margin-top:2px;">${money(item.price)}</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <button type="button" class="btn-primary" style="padding:9px 16px;font-size:12px;" onclick="addSavedToStoreCart(${item.id}, '${item.name.replace(/'/g, "\'")}')">Add to cart</button>
+              <a class="btn-secondary" href="mavonbeauty-mvp.html#/product/${item.id}">View</a>
+              <button type="button" class="btn-secondary" onclick="removeSavedItem(${item.id})">Remove</button>
+            </div>
+          </div>
+        `).join('') : '<p style="font-size:13px;color:var(--ink-soft);">No saved items yet. Browse the shop to add favourites.</p>'}
+      </div>`;
+  } else {
+    panelHTML = `
+      <form class="acc-card" onsubmit="saveProfileDetails(event)">
+        <h3>Profile &amp; Delivery Address</h3>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label>Full name</label>
+            <input type="text" id="p-name" value="${p.name}">
+          </div>
+          <div class="form-field">
+            <label>Phone number</label>
+            <input type="tel" id="p-phone" value="${p.phone}">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" id="p-email" value="${p.email}">
+          </div>
+          <div class="form-field">
+            <label>Delivery state / region</label>
+            <select id="p-state">
+              ${['Lagos', 'Ogun / Oyo', 'Abuja (FCT)', 'Other states'].map(st => `
+                <option value="${st}" ${p.state === st ? 'selected' : ''}>${st}</option>
+              `).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Default delivery address</label>
+          <input type="text" id="p-address" value="${p.address}">
+        </div>
+        <div class="form-field">
+          <label>Skincare routine focus</label>
+          <input type="text" id="p-goal" value="${p.skinGoal}">
+        </div>
+        <button type="submit" class="btn-cart">Save changes</button>
+      </form>`;
+  }
+
+  return `
+  <section class="section" style="padding-top:8px;">
+    <div class="wrap" style="max-width:760px;">
+      <div class="breadcrumb"><a href="mavonbeauty-mvp.html">Home</a> &gt; <span class="current">My Account</span></div>
+
+      <div class="acc-banner">
+        <div class="acc-user">
+          <div class="acc-avatar">${initials}</div>
+          <div>
+            <div class="eyebrow">Member Preview</div>
+            <h1 style="font-size:21px;margin-top:2px;">${p.name}</h1>
+            <div style="font-size:12.5px;color:var(--ink-soft);margin-top:2px;">${p.email} · ${p.state}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a class="btn-primary" style="padding:10px 18px;font-size:12.5px;" href="mavonbeauty-mvp.html#/shop">Continue Shopping</a>
+          <button type="button" class="btn-secondary" onclick="lockAccount()">Log out</button>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">${orders.length}</div><div class="lbl">Orders</div></div>
+        <div class="stat-card"><div class="num">${acc.saved.length}</div><div class="lbl">Saved Picks</div></div>
+        <div class="stat-card"><div class="num">${p.state}</div><div class="lbl">Delivery Zone</div></div>
+      </div>
+
+      <div class="acc-tabs">
+        <button type="button" class="${acc.activeTab === 'orders' ? 'active' : ''}" onclick="setDashTab('orders')">Orders (${orders.length})</button>
+        <button type="button" class="${acc.activeTab === 'saved' ? 'active' : ''}" onclick="setDashTab('saved')">Saved (${acc.saved.length})</button>
+        <button type="button" class="${acc.activeTab === 'profile' ? 'active' : ''}" onclick="setDashTab('profile')">Profile &amp; Address</button>
+      </div>
+
+      ${panelHTML}
+    </div>
+  </section>`;
+}
+
+function render() {
+  syncCartBadges();
+  document.getElementById('app').innerHTML = acc.unlocked ? renderUnlockedDashboard() : renderLockedGate();
+}
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
