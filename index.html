@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="MavonBeauty" />
 <meta property="og:title" content="MavonBeauty — Skincare For Everyone" />
 <meta property="og:description" content="Gentle, rose-based skincare made for every skin story. Shop now, pay by card, transfer, or on delivery." />
-<meta property="og:image" content="https://mavonbeauty.example.com/og-image.jpg" />
+<meta property="og:image" content="https://images.unsplash.com/photo-1670201203614-cdb9b8fdf4c3?auto=format&fit=crop&w=1200&q=70" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- TODO(backend): swap og:image for a real hosted product/banner image once product photos exist -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23E63E67'/%3E%3Cpath d='M12 18s-5.5-3.4-5.5-7.4A3.4 3.4 0 0 1 12 8.4a3.4 3.4 0 0 1 5.5 2.2c0 4-5.5 7.4-5.5 7.4Z' fill='%23FFF7F8'/%3E%3C/svg%3E" />
@@ -100,8 +100,14 @@
   @keyframes slidein{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
 
   /* ===== Hero ===== */
-  .hero{background:radial-gradient(ellipse at 70% 20%, #FDE7EC 0%, var(--blush-bg) 55%);padding:36px 0 30px;}
-  .hero-copy{text-align:center;}
+  .hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 70% 20%, #FDE7EC 0%, var(--blush-bg) 55%);padding:0 0 30px;}
+  .hero-photo{
+    position:relative;height:260px;
+    -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);
+    mask-image:linear-gradient(to bottom,#000 55%,transparent);
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block;}
+  .hero-copy{text-align:center;position:relative;margin-top:-34px;}
   .hero-copy h1{font-size:34px;line-height:1.1;color:var(--ink);}
   .hero-copy p{margin:14px auto 22px;max-width:320px;color:var(--ink-soft);font-size:13.5px;line-height:1.65;}
   .btn-primary{
@@ -109,11 +115,19 @@
     padding:13px 30px;border-radius:40px;font-size:13.5px;border:none;cursor:pointer;
     box-shadow:0 12px 20px -8px rgba(230,62,103,.5);
   }
-  .hero-below{display:flex;justify-content:center;gap:14px;margin-top:26px;padding:0 10px;}
-  .hero-below .item{border-radius:14px;flex:1;max-width:110px;height:110px;}
-  .prod-a{background:linear-gradient(150deg,#F3D9DE,#EFB6C4);}
-  .prod-b{background:linear-gradient(150deg,#E4879C,#C24E6B);border-radius:50% 50% 12px 12px/35% 35% 12px 12px;}
-  .prod-c{background:linear-gradient(150deg,#F6A8BC,#E63E67);border-radius:50%;}
+  .hero-below{display:flex;justify-content:center;gap:12px;margin-top:26px;padding:0 16px;position:relative;}
+  .hero-below .item{
+    border-radius:16px;flex:1;max-width:130px;height:110px;overflow:hidden;
+    background:linear-gradient(150deg,#F3D9DE,#EFB6C4);
+    box-shadow:0 14px 22px -14px rgba(194,78,107,.55);
+  }
+  .hero-below .item img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* ===== Photos inside image slots (gradient + icon stay underneath as a fallback) ===== */
+  .prod-img,.pd-image,.cart-item .thumb,.admin-table .a-thumb,.howto-img{position:relative;overflow:hidden;}
+  .prod-img img,.pd-image img,.cart-item .thumb img,.admin-table .a-thumb img,.howto-img img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
 
   /* ===== Section titles ===== */
   .section{padding:40px 0;}
@@ -143,7 +157,7 @@
   }
   .card .tag.sale{background:var(--rose-hot);color:#fff;left:52px;}
   .prod-img{
-    height:120px;border-radius:10px;margin-bottom:10px;
+    height:150px;border-radius:10px;margin-bottom:10px;
     display:flex;align-items:center;justify-content:center;
     background:linear-gradient(155deg,#F7DDE3,#EFB6C4);
   }
@@ -272,7 +286,20 @@
     body{padding-bottom:0;}
     .bottom-nav{display:none;}
     .navlinks{display:flex;}
-    .hero-copy h1{font-size:52px;}
+    .hero{min-height:600px;padding:0;}
+    .hero-photo{
+      position:absolute;top:0;right:0;width:58%;height:100%;
+      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 42%),linear-gradient(to bottom,#000 72%,transparent);
+      -webkit-mask-composite:source-in;
+      mask-image:linear-gradient(to right,transparent 0,#000 42%),linear-gradient(to bottom,#000 72%,transparent);
+      mask-composite:intersect;
+    }
+    .hero-photo img{object-position:50% 18%;}
+    .hero-copy{text-align:left;margin-top:0;padding-top:96px;}
+    .hero-copy h1{font-size:64px;}
+    .hero-copy p{margin:18px 0 26px;max-width:430px;font-size:16px;}
+    .hero-below{justify-content:flex-start;margin-top:40px;padding-bottom:44px;}
+    .hero-below .item{flex:0 0 200px;max-width:200px;height:185px;border-radius:20px;}
     .cats{grid-template-columns:repeat(6,1fr);}
     .prod-grid{grid-template-columns:repeat(4,1fr);}
     .foot-top{grid-template-columns:1.4fr 1fr 1fr 1fr;}
@@ -590,6 +617,42 @@ function applyConfig(){
   if(promo) promo.textContent = CONFIG.promoText;
 }
 
+/* =====================================================================
+   IMAGES — every photo on the storefront lives here, so swapping to the
+   client's own product photos later means editing this one object (or the
+   Image URL field in Admin → Products). No photo is used twice.
+   Sources: Unsplash (Unsplash License) and Pexels (Pexels License).
+   Credits: hero Laura Jaeger · tiles Mailchimp, Pavlo, Pexels · products
+   Mathilde Langevin, Vya Naturals, Lina Verovaya, Curology, Maria Lupan,
+   Pexels · how-to Pexels.
+   If a link ever fails to load, the card falls back to its gradient + icon.
+   ===================================================================== */
+const IMAGES = {
+  hero: "https://images.unsplash.com/photo-1670201203614-cdb9b8fdf4c3?auto=format&fit=crop&w=1400&q=70",
+  heroTiles: [
+    {src:"https://images.unsplash.com/photo-1761864293806-1841acc1b14a?auto=format&fit=crop&w=500&q=70", alt:"Serum dropper bottle"},
+    {src:"https://images.unsplash.com/photo-1764694071462-db50e50a3925?auto=format&fit=crop&w=500&q=70", alt:"Silver skincare bottles"},
+    {src:"https://images.pexels.com/photos/8167117/pexels-photo-8167117.jpeg?auto=compress&cs=tinysrgb&w=500", alt:"Amber pump bottle"}
+  ],
+  howto: "https://images.pexels.com/photos/8166568/pexels-photo-8166568.jpeg?auto=compress&cs=tinysrgb&w=1000",
+  products: {
+    1: "https://images.unsplash.com/photo-1620917669809-1af0497965de?auto=format&fit=crop&w=800&q=70",   // Rosewater Gentle Cleanser (tube)
+    2: "https://images.pexels.com/photos/8167288/pexels-photo-8167288.jpeg?auto=compress&cs=tinysrgb&w=800",                        // Blush Petal Toner (bottle + dried flowers)
+    3: "https://images.unsplash.com/photo-1564594228700-4b5ae46c70c5?auto=format&fit=crop&w=800&q=70",   // Dewy Glow Serum (dropper)
+    4: "https://images.unsplash.com/photo-1598662972299-5408ddb8a3dc?auto=format&fit=crop&w=800&q=70",   // Silk Bloom Lotion (pink tube)
+    5: "https://images.pexels.com/photos/8167167/pexels-photo-8167167.jpeg?auto=compress&cs=tinysrgb&w=800",                        // Mist & Rose Spray (spray bottles)
+    6: "https://images.unsplash.com/photo-1556227834-09f1de7a7d14?auto=format&fit=crop&w=800&q=70",       // Velvet Whipped Balm (cream jar)
+    7: "https://images.unsplash.com/photo-1741896136777-deb999cab264?auto=format&fit=crop&w=800&q=70",   // Petite Rose Duo Set (bottle set)
+    8: "https://images.pexels.com/photos/6167869/pexels-photo-6167869.jpeg?auto=compress&cs=tinysrgb&w=800"                         // Night Bloom Oil (amber bottles)
+  }
+};
+
+function imgTag(src, alt, eager){
+  if(!src) return '';
+  const safeAlt = String(alt||'').replace(/"/g,'&quot;');
+  return `<img src="${src}" alt="${safeAlt}" ${eager?'':'loading="lazy"'} decoding="async" onerror="this.remove()">`;
+}
+
 /* ===== Data ===== */
 const products = [
   {id:1, name:"Rosewater Gentle Cleanser", price:22500, oldPrice:null, tag:"New", stock:12, icon:"bottle", desc:"A pH-balanced cleanser infused with rosewater and mild botanical surfactants. Meticulously removes dirt and makeup without stripping the skin barrier, leaving skin soft, calm, and eye-safe."},
@@ -601,6 +664,8 @@ const products = [
   {id:7, name:"Petite Rose Duo Set", price:32000, oldPrice:null, tag:null, stock:9, icon:"bottle", desc:"A travel-friendly cleanser and toner duo, perfect for first-time MavonBeauty customers or weekend trips."},
   {id:8, name:"Night Bloom Oil", price:24000, oldPrice:null, tag:"New", stock:6, icon:"dropper", desc:"A nourishing overnight facial oil blending rosehip and jojoba to repair and replenish skin while you sleep."}
 ];
+
+products.forEach(p => { p.img = IMAGES.products[p.id] || ''; });
 
 const icons = {
   bottle:'<svg viewBox="0 0 24 24"><rect x="7" y="6" width="10" height="15" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/></svg>',
@@ -762,7 +827,7 @@ function renderCartDrawer(){
     const qty = state.cart[id];
     rows += `
       <div class="cart-item">
-        <div class="thumb">${icons[p.icon]}</div>
+        <div class="thumb">${icons[p.icon]}${imgTag(p.img, p.name)}</div>
         <div style="flex:1;">
           <div class="ci-name">${p.name}</div>
           <div class="ci-bottom">
@@ -846,7 +911,7 @@ function productCardHTML(p){
   return `
     <div class="card" onclick="goProduct(${p.id})">
       ${tagHTML}
-      <div class="prod-img">${icons[p.icon]}</div>
+      <div class="prod-img">${icons[p.icon]}${imgTag(p.img, p.name)}</div>
       <h4>${p.name}</h4>
       <div class="price-row"><span class="price">${money(p.price)}</span>${oldPriceHTML}</div>
       ${stockHTML}
@@ -858,15 +923,14 @@ function renderHome(){
   const popular = products.slice(0,8).map(productCardHTML).join('');
   return `
   <section class="hero">
+    <div class="hero-photo">${imgTag(IMAGES.hero, 'Woman enjoying her skincare routine', true)}</div>
     <div class="wrap hero-copy">
       <h1>Skincare for<br>Everyone</h1>
       <p>A mild blend of fresh rose, warming botanicals, soft honey, and sparkling citrus — made for every skin story.</p>
       <button class="btn-primary" onclick="goShop()">Shop Now</button>
     </div>
     <div class="wrap hero-below">
-      <div class="item prod-a"></div>
-      <div class="item prod-b"></div>
-      <div class="item prod-c"></div>
+      ${IMAGES.heroTiles.map(t => `<div class="item">${imgTag(t.src, t.alt, true)}</div>`).join('')}
     </div>
   </section>
 
@@ -899,7 +963,7 @@ function renderHome(){
 
   <section class="section howto">
     <div class="wrap">
-      <div class="howto-img"></div>
+      <div class="howto-img">${imgTag(IMAGES.howto, 'Skincare products styled on a textured surface')}</div>
       <div class="eyebrow">Ritual</div>
       <h2 class="section-title" style="margin-bottom:8px;">How to use it?</h2>
       <div class="step"><div class="num">01.</div><div><h4>Cleanse gently, eye-safe</h4><p>Meticulously removes dirt and impurities without stripping skin.</p></div></div>
@@ -967,7 +1031,7 @@ function renderProduct(){
   <section class="section" style="padding-top:8px;">
     <div class="wrap">
       <div class="breadcrumb"><a onclick="goHome()">Home</a> &gt; <a onclick="goShop()">Shop</a> &gt; <a>${p.name}</a></div>
-      <div class="pd-image">${icons[p.icon]}</div>
+      <div class="pd-image">${icons[p.icon]}${imgTag(p.img, p.name, true)}</div>
       <h1 class="pd-title">${p.name}</h1>
       <div class="pd-price-row"><span class="pd-price">${money(p.price)}</span>${oldPriceHTML}</div>
       <div class="pd-rating"><span class="stars">★★★★★</span> ( 0 ratings )</div>
@@ -1381,7 +1445,7 @@ function demoSignup(email){
    POST/PUT/DELETE /api/products endpoints, gate /#/admin behind real
    authentication, and load state.orders from GET /api/orders.
    ===================================================================== */
-function adminOpenAdd(){ state.adminModal = {mode:'add', product:{name:'',price:0,oldPrice:null,stock:0,tag:'',icon:'bottle',desc:''}}; render(); }
+function adminOpenAdd(){ state.adminModal = {mode:'add', product:{name:'',price:0,oldPrice:null,stock:0,tag:'',icon:'bottle',desc:'',img:''}}; render(); }
 function adminOpenEdit(id){ state.adminModal = {mode:'edit', product:{...products.find(p=>p.id===id)}}; render(); }
 function adminCloseModal(){ state.adminModal = null; render(); }
 function adminFieldChange(key, val){ state.adminModal.product[key] = val; }
@@ -1472,7 +1536,7 @@ function renderAdmin(){
     const rows = products.map(p=>{
       const pill = p.stock===0 ? `<span class="admin-pill out">Out of stock</span>` : p.stock<=3 ? `<span class="admin-pill low">Low — ${p.stock} left</span>` : `<span class="admin-pill ok">${p.stock} in stock</span>`;
       return `<tr>
-        <td><div class="a-thumb">${icons[p.icon]}</div></td>
+        <td><div class="a-thumb">${icons[p.icon]}${imgTag(p.img, p.name)}</div></td>
         <td>${p.name}</td>
         <td>${money(p.price)}</td>
         <td>${pill}</td>
@@ -1557,7 +1621,7 @@ function renderAdminModal(){
         </div>
       </div>
       <div class="form-field"><label>Description</label><textarea oninput="adminFieldChange('desc',this.value)">${p.desc||''}</textarea></div>
-      <p class="hint" style="margin-bottom:14px;">Product photos aren't wired up yet — TODO(backend): add image upload once file storage exists.</p>
+      <div class="form-field"><label>Photo link <span style="font-weight:500;color:var(--ink-soft);">(optional)</span></label><input type="url" value="${p.img||''}" oninput="adminFieldChange('img',this.value)" placeholder="https://…"><div class="hint">Paste a link to a product photo. TODO(backend): replace with real image upload once file storage exists.</div></div>
       <button class="btn-cart" style="margin:0 0 10px;" onclick="adminSaveProduct()">Save product</button>
       <button class="btn-secondary" onclick="adminCloseModal()">Cancel</button>
     </div>
